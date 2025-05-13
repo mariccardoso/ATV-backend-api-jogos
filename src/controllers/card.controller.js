@@ -1,4 +1,4 @@
-import CardModel from "../models/cardModel.js";
+import CardModel from "../models/card.model.js";
 
 class CardController {
   // GET /cartas
