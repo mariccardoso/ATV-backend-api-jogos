@@ -35,5 +35,5 @@ Desenvolver uma API REST seguindo a arquitetura MVC (Model-View-Controller) que 
 
 - Cadastrar e autenticar usuários
 - Registrar recordes em jogos retrô
-- Implementar sistema de validação de conquistas
+- Implementar sistema de validação de conquistas (validação de atributos)
 - Criar rankings e filtrar por jogo, plataforma e pontuação
