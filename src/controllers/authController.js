@@ -17,10 +17,10 @@ class AuthController {
   // Registrar novo usuário
   async register(req, res) {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, nickname } = req.body;
 
       // Validação básica
-      if (!name || !email || !password) {
+      if (!name || !email || !password || !nickname) {
         return res
           .status(400)
           .json({ error: "Os campos nome, email e senha são obrigatórios!" });
@@ -32,6 +32,14 @@ class AuthController {
         return res.status(400).json({ error: "Este email já está em uso!" });
       }
 
+      // Verificar se o nickname já existe
+      const userNicknameExists = await UserModel.findByNickname(nickname);
+      if (userNicknameExists) {
+        return res
+          .status(400)
+          .json({ error: "Este nickname já está em uso!" });
+      }
+
       // Hash da senha
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -39,6 +47,7 @@ class AuthController {
       const data = {
         name,
         email,
+        nickname,
         password: hashedPassword,
       };
 
@@ -72,6 +81,12 @@ class AuthController {
         return res.status(401).json({ error: "Credenciais inválidas!" });
       }
 
+      // Verificar se o nickname existe
+      const userNicknameExists = await UserModel.findByNickname(nickname);
+      if (!userNicknameExists) {
+        return res.status(401).json({ error: "Credenciais inválidas!" });
+      }
+
       // Verificar senha
       const isPasswordValid = await bcrypt.compare(
         password,
@@ -86,6 +101,7 @@ class AuthController {
         {
           id: userExists.id,
           name: userExists.name,
+          nickname: userExists.nickname,
           email: userExists.email,
         },
         process.env.JWT_SECRET,
