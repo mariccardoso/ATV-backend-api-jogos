@@ -7,4 +7,11 @@ const gameRouter = express.Router();
 // GET /jogos - Listar todos os Jogos
 gameRouter.get('/', GameController.getAllGames);
 
+// GET /jogos/:id - Obter um Jogo pelo ID
+// gameRouter.get('/:id', GameController.getGameById);
+
+// POST /jogos - Criar um novo Jogo
+gameRouter.post('/', GameController.createGame);
+
+
 export default gameRouter;
