@@ -66,7 +66,7 @@ class AuthController {
 
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const { email, password} = req.body;
 
       // Validação básica
       if (!email || !password) {
@@ -82,10 +82,10 @@ class AuthController {
       }
 
       // Verificar se o nickname existe
-      const userNicknameExists = await UserModel.findByNickname(nickname);
-      if (!userNicknameExists) {
-        return res.status(401).json({ error: "Credenciais inválidas!" });
-      }
+      // const userNicknameExists = await UserModel.findByNickname(nickname);
+      // if (!userNicknameExists) {
+      //   return res.status(401).json({ error: "Credenciais inválidas!" });
+      // }
 
       // Verificar senha
       const isPasswordValid = await bcrypt.compare(
@@ -104,7 +104,7 @@ class AuthController {
           nickname: userExists.nickname,
           email: userExists.email,
         },
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET_KEY,
         {
           expiresIn: "24h",
         }
